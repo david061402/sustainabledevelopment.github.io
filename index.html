@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit XIII: Sustainable Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        glassBorder: 'rgba(255, 255, 255, 0.2)',
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Scrollbar to keep it clean */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; }
+
+        .bg-scene {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.35), transparent 36%),
+                radial-gradient(circle at 80% 18%, rgba(45, 212, 191, 0.22), transparent 34%),
+                radial-gradient(circle at 70% 80%, rgba(30, 64, 175, 0.32), transparent 42%),
+                linear-gradient(145deg, #0a0f1f 0%, #0f1e3a 45%, #0d1f31 100%);
+        }
+
+        .bg-scene::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.18) 0.6px, transparent 0.8px);
+            background-size: 3px 3px;
+            opacity: 0.09;
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+        }
+
+        .bg-grid {
+            position: absolute;
+            inset: -40%;
+            background:
+                linear-gradient(rgba(148, 163, 184, 0.18) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.18) 1px, transparent 1px);
+            background-size: 64px 64px;
+            transform: perspective(700px) rotateX(65deg) translateY(24%);
+            transform-origin: center;
+            opacity: 0.12;
+            animation: bg-drift 20s linear infinite;
+        }
+
+        .aurora {
+            position: absolute;
+            width: 48vw;
+            height: 48vw;
+            min-width: 340px;
+            min-height: 340px;
+            border-radius: 9999px;
+            filter: blur(80px);
+            opacity: 0.34;
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .aurora-a {
+            top: -16%;
+            left: -8%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.8) 0%, rgba(56, 189, 248, 0) 66%);
+            animation: blob-float-a 18s ease-in-out infinite;
+        }
+
+        .aurora-b {
+            top: -8%;
+            right: -14%;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.8) 0%, rgba(20, 184, 166, 0) 66%);
+            animation: blob-float-b 22s ease-in-out infinite;
+        }
+
+        .aurora-c {
+            bottom: -18%;
+            left: 22%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.85) 0%, rgba(59, 130, 246, 0) 68%);
+            animation: blob-float-c 24s ease-in-out infinite;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(2px);
+            animation: blob-spin 30s linear infinite;
+        }
+
+        .blob-a {
+            width: 180px;
+            height: 180px;
+            top: 16%;
+            left: 70%;
+            animation-duration: 28s;
+        }
+
+        .blob-b {
+            width: 130px;
+            height: 130px;
+            top: 65%;
+            left: 14%;
+            animation-duration: 34s;
+            animation-direction: reverse;
+        }
+
+        .blob-c {
+            width: 90px;
+            height: 90px;
+            top: 42%;
+            left: 84%;
+            animation-duration: 26s;
+        }
+
+        .sticker-stage {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            z-index: 2;
+        }
+
+        .sticker-card {
+            position: absolute;
+            width: 132px;
+            padding: 10px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+            box-shadow: 0 24px 42px rgba(2, 6, 23, 0.38);
+            backdrop-filter: blur(6px);
+            transform-style: preserve-3d;
+            will-change: transform;
+            animation: sticker-float 11s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .sticker-card::after {
+            content: "";
+            position: absolute;
+            inset: 4px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+        }
+
+        .sticker-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+            filter: drop-shadow(0 10px 14px rgba(8, 47, 73, 0.34));
+            transform: translateZ(24px);
+        }
+
+        .sticker-a { top: 10%; left: 8%; }
+        .sticker-b { top: 12%; left: 76%; animation-delay: 1.7s; }
+        .sticker-c { top: 34%; left: 3%; animation-delay: 0.8s; }
+        .sticker-d { top: 32%; left: 86%; animation-delay: 2.3s; }
+        .sticker-e { top: 64%; left: 9%; animation-delay: 1.2s; }
+        .sticker-f { top: 66%; left: 80%; animation-delay: 2.8s; }
+        .sticker-g { top: 77%; left: 44%; animation-delay: 0.5s; }
+
+        .depth-1 { --depth: 16; }
+        .depth-2 { --depth: 26; }
+        .depth-3 { --depth: 40; }
+
+        .wire-cube {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(103, 232, 249, 0.26);
+            transform-style: preserve-3d;
+            animation: cube-spin 18s linear infinite;
+            opacity: 0.62;
+        }
+
+        .wire-cube::before,
+        .wire-cube::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(165, 243, 252, 0.24);
+        }
+
+        .wire-cube::before {
+            transform: translateZ(22px) rotateY(28deg);
+        }
+
+        .wire-cube::after {
+            transform: translateZ(-22px) rotateX(28deg);
+        }
+
+        .cube-a {
+            top: 20%;
+            left: 47%;
+            width: 96px;
+            height: 96px;
+        }
+
+        .cube-b {
+            top: 72%;
+            left: 62%;
+            width: 130px;
+            height: 130px;
+            animation-duration: 23s;
+            animation-direction: reverse;
+        }
+
+        .orbital-ring {
+            position: absolute;
+            border-radius: 9999px;
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            transform-style: preserve-3d;
+            animation: ring-spin 22s linear infinite;
+            opacity: 0.46;
+        }
+
+        .ring-a {
+            width: 260px;
+            height: 260px;
+            top: 18%;
+            left: 32%;
+            transform: rotateX(72deg) rotateY(18deg);
+        }
+
+        .ring-b {
+            width: 200px;
+            height: 200px;
+            top: 64%;
+            left: 22%;
+            transform: rotateX(68deg) rotateY(-20deg);
+            animation-duration: 27s;
+        }
+
+        .sticker-stage.theme-globe .sticker-card { border-color: rgba(125, 211, 252, 0.44); }
+        .sticker-stage.theme-pillar .sticker-card { border-color: rgba(110, 231, 183, 0.42); }
+        .sticker-stage.theme-goals .sticker-card { border-color: rgba(251, 191, 36, 0.44); }
+        .sticker-stage.theme-action .sticker-card { border-color: rgba(196, 181, 253, 0.42); }
+
+        #bg-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.58;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes bg-drift {
+            from { transform: perspective(700px) rotateX(65deg) translateY(24%) translateX(0); }
+            to { transform: perspective(700px) rotateX(65deg) translateY(24%) translateX(-64px); }
+        }
+
+        @keyframes blob-float-a {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, 52px) scale(1.13); }
+        }
+
+        @keyframes blob-float-b {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-84px, 58px) scale(1.16); }
+        }
+
+        @keyframes blob-float-c {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(62px, -46px) scale(1.11); }
+        }
+
+        @keyframes blob-spin {
+            from { transform: rotate(0deg) translateY(0px); }
+            50% { transform: rotate(180deg) translateY(10px); }
+            to { transform: rotate(360deg) translateY(0px); }
+        }
+
+        @keyframes sticker-float {
+            0%, 100% { transform: translate3d(0, 0, calc(var(--depth, 16) * 1px)) rotate(-5deg); }
+            50% { transform: translate3d(0, -16px, calc(var(--depth, 16) * 1px)) rotate(4deg); }
+        }
+
+        @keyframes cube-spin {
+            from { transform: rotateX(26deg) rotateY(0deg); }
+            to { transform: rotateX(26deg) rotateY(360deg); }
+        }
+
+        @keyframes ring-spin {
+            from { transform: rotateX(72deg) rotateY(18deg) rotateZ(0deg); }
+            to { transform: rotateX(72deg) rotateY(18deg) rotateZ(360deg); }
+        }
+
+        @keyframes sticker-pulse {
+            0%, 100% { box-shadow: 0 24px 42px rgba(2, 6, 23, 0.38); }
+            50% { box-shadow: 0 28px 50px rgba(2, 6, 23, 0.5); }
+        }
+        
+        /* Smooth Figma-like transition classes */
+        .figma-enter {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .figma-enter-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Delay utilities for staggered animations */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Hide scrollbar for the main container but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @media (max-width: 768px) {
+            .bg-grid { opacity: 0.08; }
+            .blob { display: none; }
+            .sticker-card {
+                width: 88px;
+                padding: 7px;
+                border-radius: 14px;
+            }
+            .cube-b,
+            .ring-b,
+            .sticker-d,
+            .sticker-f {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .bg-grid,
+            .aurora,
+            .blob,
+            .sticker-card,
+            .wire-cube,
+            .orbital-ring {
+                animation: none;
+            }
+
+            .sticker-card {
+                opacity: 0.84;
+            }
+        }
+    </style>
+</head>
+<body class="text-white font-sans h-screen w-screen overflow-hidden">
+
+    <div class="bg-scene" aria-hidden="true">
+        <div class="bg-grid"></div>
+        <div class="aurora aurora-a"></div>
+        <div class="aurora aurora-b"></div>
+        <div class="aurora aurora-c"></div>
+        <div class="blob blob-a"></div>
+        <div class="blob blob-b"></div>
+        <div class="blob blob-c"></div>
+        <div id="sticker-stage" class="sticker-stage" aria-hidden="true">
+            <figure class="sticker-card sticker-a depth-1"><img alt=""></figure>
+            <figure class="sticker-card sticker-b depth-2"><img alt=""></figure>
+            <figure class="sticker-card sticker-c depth-1"><img alt=""></figure>
+            <figure class="sticker-card sticker-d depth-3"><img alt=""></figure>
+            <figure class="sticker-card sticker-e depth-2"><img alt=""></figure>
+            <figure class="sticker-card sticker-f depth-3"><img alt=""></figure>
+            <figure class="sticker-card sticker-g depth-2"><img alt=""></figure>
+            <div class="wire-cube cube-a"></div>
+            <div class="wire-cube cube-b"></div>
+            <div class="orbital-ring ring-a"></div>
+            <div class="orbital-ring ring-b"></div>
+        </div>
+        <canvas id="bg-canvas"></canvas>
+    </div>
+
+    <main id="scroller" class="relative z-10 h-screen w-screen overflow-y-scroll snap-y snap-mandatory no-scrollbar scroll-smooth">
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6 relative">
+            <div class="glass-panel text-center max-w-3xl p-12 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder shadow-2xl figma-enter">
+                <span class="px-4 py-1 bg-blue-500/30 text-blue-300 rounded-full text-sm font-semibold tracking-widest mb-6 inline-block">UNIT XIII</span>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+                    Sustainable Development
+                </h1>
+                <p class="text-lg text-slate-300 mb-8">An Interactive Presentation</p>
+                
+                <button onclick="document.getElementById('scroller').scrollBy(0, window.innerHeight)" class="group relative px-6 py-3 font-semibold text-white rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300 border border-white/20 hover:scale-105">
+                    Start Exploring
+                    <span class="absolute -bottom-12 left-1/2 -translate-x-1/2 text-2xl animate-bounce-slow opacity-50 group-hover:opacity-100 transition-opacity">↓</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="p-8 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter">
+                    <h2 class="text-3xl font-bold text-amber-300 mb-4">The "Risk Society"</h2>
+                    <p class="text-slate-200 leading-relaxed text-lg">
+                        Coined by Beck in 1986, this term explains that our current global problems exist because modern societies struggle to produce enough stability and sustainability. We are constantly dealing with risks created by our own rapid modernization.
+                    </p>
+                </div>
+                <div class="p-8 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter delay-200">
+                    <h2 class="text-3xl font-bold text-blue-300 mb-4">What is Stability?</h2>
+                    <p class="text-slate-200 leading-relaxed text-lg mb-4">
+                        Stability is constant growth without extreme ups and downs. 
+                    </p>
+                    <div class="bg-black/30 p-4 rounded-xl border-l-4 border-blue-400 hover:translate-x-2 transition-transform cursor-pointer">
+                        <strong class="text-white block mb-1">Economic Stability Example:</strong>
+                        <span class="text-sm text-slate-300">An economy where prices for basic goods (like rice or bread) stay mostly the same year after year, and people have a consistent chance of finding jobs.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="max-w-4xl w-full p-10 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder text-center figma-enter">
+                <h2 class="text-4xl font-bold mb-8 text-emerald-400">Defining Sustainable Development</h2>
+                <p class="text-xl text-slate-200 leading-relaxed mb-8">
+                    The most famous definition comes from the 1987 Brundtland Report. It states that sustainable development is:
+                </p>
+                <blockquote class="text-3xl font-semibold italic text-white bg-black/20 p-8 rounded-2xl border border-white/10 shadow-inner">
+                    "Development that meets the needs of the present without compromising the ability of future generations to meet their own needs."
+                </blockquote>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
+            <h2 class="text-4xl font-bold mb-12 figma-enter text-center">The 3 Pillars of Sustainability</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer figma-enter delay-100">
+                    <div class="absolute inset-0 bg-emerald-900/50 backdrop-blur-md border border-emerald-400/30 p-8 transition-all duration-500 group-hover:-translate-y-full">
+                        <h3 class="text-3xl font-bold text-emerald-300 mb-2">1. Environment</h3>
+                        <p class="text-slate-200">Hover to reveal meaning & example.</p>
+                        <div class="absolute bottom-6 right-6 text-emerald-300 opacity-50 text-4xl">🌱</div>
+                    </div>
+                    <div class="absolute inset-0 bg-emerald-800 p-8 transition-all duration-500 translate-y-full group-hover:translate-y-0 flex flex-col justify-center">
+                        <p class="text-sm text-emerald-100 mb-3 leading-relaxed">Recognizing that natural resources are limited. We must not use them faster than the earth can replace them.</p>
+                        <div class="bg-black/30 p-3 rounded-lg">
+                            <strong class="text-white text-sm">Example:</strong>
+                            <p class="text-xs text-emerald-200">A factory switching from burning coal to using solar panels to stop polluting the air.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer figma-enter delay-200">
+                    <div class="absolute inset-0 bg-blue-900/50 backdrop-blur-md border border-blue-400/30 p-8 transition-all duration-500 group-hover:-translate-y-full">
+                        <h3 class="text-3xl font-bold text-blue-300 mb-2">2. Economy</h3>
+                        <p class="text-slate-200">Hover to reveal meaning & example.</p>
+                        <div class="absolute bottom-6 right-6 text-blue-300 opacity-50 text-4xl">💰</div>
+                    </div>
+                    <div class="absolute inset-0 bg-blue-800 p-8 transition-all duration-500 translate-y-full group-hover:translate-y-0 flex flex-col justify-center">
+                        <p class="text-sm text-blue-100 mb-3 leading-relaxed">Using resources responsibly so countries and businesses can survive and thrive in the long term.</p>
+                        <div class="bg-black/30 p-3 rounded-lg">
+                            <strong class="text-white text-sm">Example:</strong>
+                            <p class="text-xs text-blue-200">A clothing brand making shirts from recycled materials to save money and reduce waste.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer figma-enter delay-300">
+                    <div class="absolute inset-0 bg-purple-900/50 backdrop-blur-md border border-purple-400/30 p-8 transition-all duration-500 group-hover:-translate-y-full">
+                        <h3 class="text-3xl font-bold text-purple-300 mb-2">3. Society</h3>
+                        <p class="text-slate-200">Hover to reveal meaning & example.</p>
+                        <div class="absolute bottom-6 right-6 text-purple-300 opacity-50 text-4xl">🤝</div>
+                    </div>
+                    <div class="absolute inset-0 bg-purple-800 p-8 transition-all duration-500 translate-y-full group-hover:translate-y-0 flex flex-col justify-center">
+                        <p class="text-sm text-purple-100 mb-3 leading-relaxed">The ability of a community to maintain peace, fairness, and good human well-being over time.</p>
+                        <div class="bg-black/30 p-3 rounded-lg">
+                            <strong class="text-white text-sm">Example:</strong>
+                            <p class="text-xs text-purple-200">A company making sure all its workers get fair pay, safe workspaces, and health benefits.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
+            <div class="max-w-5xl w-full p-8 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter">
+                <h2 class="text-4xl font-bold mb-8 text-center text-white">Models of Sustainable Development</h2>
+                
+                <div class="flex space-x-2 bg-black/20 p-2 rounded-2xl mb-6 overflow-x-auto">
+                    <button onclick="showModel('stool')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 bg-white/20 shadow-md" id="btn-stool">3-Legged Stool</button>
+                    <button onclick="showModel('circles')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10" id="btn-circles">Overlapping Circles</button>
+                    <button onclick="showModel('nested')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10" id="btn-nested">Nested Dependencies</button>
+                </div>
+
+                <div class="h-48 relative">
+                    <div id="content-stool" class="absolute inset-0 transition-all duration-500 opacity-100 translate-y-0">
+                        <h3 class="text-2xl font-bold text-amber-300 mb-3">The 3-Legged Stool Model</h3>
+                        <p class="text-lg text-slate-200">This model shows that the environment, economy, and society are like the three legs of a stool. They are independent but equally important. If one leg is missing or broken, the whole stool (sustainability) falls over.</p>
+                    </div>
+                    <div id="content-circles" class="absolute inset-0 transition-all duration-500 opacity-0 translate-y-4 pointer-events-none">
+                        <h3 class="text-2xl font-bold text-blue-300 mb-3">The 3-Overlapping Circles Model</h3>
+                        <p class="text-lg text-slate-200">This model uses a Venn diagram. It shows that the three pillars intersect and affect each other. True sustainability is found right in the middle where all three circles overlap.</p>
+                    </div>
+                    <div id="content-nested" class="absolute inset-0 transition-all duration-500 opacity-0 translate-y-4 pointer-events-none">
+                        <h3 class="text-2xl font-bold text-emerald-300 mb-3">The 3-Nested Dependencies Model</h3>
+                        <p class="text-lg text-slate-200">This model argues that the economy is a part of society, and society exists entirely within the environment. Therefore, human society and the economy cannot survive if they destroy the environment that holds them.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="w-full max-w-5xl bg-glass backdrop-blur-xl border border-glassBorder rounded-3xl p-10 figma-enter">
+                <h2 class="text-4xl font-bold mb-6 text-center text-blue-400">The 17 UN SDGs</h2>
+                <p class="text-center text-lg mb-10 text-slate-200 max-w-3xl mx-auto">
+                    In 2015, the UN created 17 Sustainable Development Goals to be achieved by 2030. What makes them unique?
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                        <h3 class="text-xl font-bold text-white mb-2">🌍 Universality</h3>
+                        <p class="text-sm text-slate-300">These goals apply to every country, rich or poor. Every city, business, and school must help.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors delay-100">
+                        <h3 class="text-xl font-bold text-white mb-2">🔗 Integration</h3>
+                        <p class="text-sm text-slate-300">They are all connected. You cannot fix hunger without also fixing poverty and the environment.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors delay-200">
+                        <h3 class="text-xl font-bold text-white mb-2">🦋 Transformation</h3>
+                        <p class="text-sm text-slate-300">Small changes aren't enough. We need massive, fundamental changes in how humans live on Earth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
+            <h2 class="text-3xl font-bold mb-8 text-center figma-enter">SDGs 1-6 <span class="text-lg font-normal text-slate-300 block mt-2">(Hover to see examples)</span></h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-6xl figma-enter delay-100">
+                <div class="group relative h-40 bg-red-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0">
+                        <h3 class="font-bold text-xl">1. No Poverty</h3>
+                    </div>
+                    <div class="absolute inset-0 bg-red-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span>
+                        <p class="text-red-100">Giving small loans to poor farmers so they can buy seeds and start a business.</p>
+                    </div>
+                </div>
+                
+                <div class="group relative h-40 bg-amber-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">2. Zero Hunger</h3></div>
+                    <div class="absolute inset-0 bg-amber-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-amber-100">Teaching communities how to grow climate-proof crops and creating urban gardens.</p>
+                    </div>
+                </div>
+
+                <div class="group relative h-40 bg-green-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">3. Good Health</h3></div>
+                    <div class="absolute inset-0 bg-green-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-green-100">Providing free vaccines and building clinics in remote mountain villages.</p>
+                    </div>
+                </div>
+
+                <div class="group relative h-40 bg-red-800/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">4. Quality Education</h3></div>
+                    <div class="absolute inset-0 bg-red-900 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-red-100">Schools giving free laptops and Wi-Fi access to students who cannot afford them.</p>
+                    </div>
+                </div>
+
+                <div class="group relative h-40 bg-orange-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">5. Gender Equality</h3></div>
+                    <div class="absolute inset-0 bg-orange-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-orange-100">Creating strict laws that force companies to pay men and women the exact same salary.</p>
+                    </div>
+                </div>
+
+                <div class="group relative h-40 bg-cyan-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">6. Clean Water</h3></div>
+                    <div class="absolute inset-0 bg-cyan-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-cyan-100">Building solar-powered water pumps and purifiers in communities without plumbing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
+            <h2 class="text-3xl font-bold mb-8 text-center figma-enter">SDGs 7-12</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-6xl figma-enter delay-100">
+                <div class="group relative h-40 bg-yellow-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">7. Clean Energy</h3></div>
+                    <div class="absolute inset-0 bg-yellow-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-yellow-100">Government discounts for homeowners who install solar panels on their roofs.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-rose-700/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">8. Economic Growth</h3></div>
+                    <div class="absolute inset-0 bg-rose-900 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-rose-100">Banning child labor and ensuring all factory workers have safe working conditions.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-orange-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">9. Industry & Innovation</h3></div>
+                    <div class="absolute inset-0 bg-orange-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-orange-100">Engineers building earthquake-proof bridges and high-speed trains to connect cities.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-pink-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">10. Reduced Inequalities</h3></div>
+                    <div class="absolute inset-0 bg-pink-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-pink-100">Taxing billionaires higher rates to fund public hospitals and schools for the poor.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-amber-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">11. Sustainable Cities</h3></div>
+                    <div class="absolute inset-0 bg-amber-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-amber-100">Replacing old diesel city buses with electric buses to stop smog and pollution.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-yellow-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">12. Responsible Consumption</h3></div>
+                    <div class="absolute inset-0 bg-yellow-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-yellow-100">Grocery stores banning single-use plastic bags and forcing buyers to use reusable bags.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
+            <h2 class="text-3xl font-bold mb-8 text-center figma-enter">SDGs 13-17</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-6xl figma-enter delay-100">
+                <div class="group relative h-40 bg-emerald-700/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">13. Climate Action</h3></div>
+                    <div class="absolute inset-0 bg-emerald-900 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-emerald-100">Governments placing high taxes on companies that release huge amounts of carbon gas.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-blue-600/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">14. Life Below Water</h3></div>
+                    <div class="absolute inset-0 bg-blue-800 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-blue-100">Declaring parts of the ocean as "Protected Zones" where no commercial fishing is allowed.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-lime-500/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">15. Life on Land</h3></div>
+                    <div class="absolute inset-0 bg-lime-700 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-lime-100">Organizing massive tree-planting events to replace forests destroyed by illegal logging.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-blue-800/80 rounded-2xl overflow-hidden cursor-pointer">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">16. Peace & Justice</h3></div>
+                    <div class="absolute inset-0 bg-blue-900 p-4 flex flex-col justify-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-blue-100">Building independent anti-corruption agencies to catch politicians stealing public money.</p>
+                    </div>
+                </div>
+                <div class="group relative h-40 bg-indigo-800/80 rounded-2xl overflow-hidden cursor-pointer md:col-span-2">
+                    <div class="absolute inset-0 p-4 flex items-center justify-center text-center transition-opacity duration-300 group-hover:opacity-0"><h3 class="font-bold text-xl">17. Partnerships for the Goals</h3></div>
+                    <div class="absolute inset-0 bg-indigo-900 p-4 flex flex-col justify-center items-center text-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="font-bold text-white mb-1">Example:</span><p class="text-indigo-100 max-w-md">Rich countries sharing their latest green technology and research data for free so poorer countries can develop safely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="glass-panel text-center max-w-3xl p-12 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder shadow-2xl figma-enter">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Let's Build a Better Future</h2>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed">
+                    True development means solving today's problems without ruining tomorrow. By understanding the 3 pillars and actively pursuing the 17 SDGs, we build a stable, resilient society.
+                </p>
+                <div class="inline-block p-4 bg-white/5 rounded-xl border border-white/10">
+                    <p class="text-sm text-blue-300 font-mono">End of Presentation • Scroll up to review</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Figma-style scroll reveal animation using Intersection Observer
+        const observerOptions = {
+            root: document.querySelector('#scroller'),
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('figma-enter-active');
+                } else {
+                    // Optional: remove to animate again on scroll up
+                    entry.target.classList.remove('figma-enter-active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.figma-enter').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Interactive Tabs Logic for Models Slide
+        function showModel(modelName) {
+            // Reset buttons
+            document.getElementById('btn-stool').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
+            document.getElementById('btn-circles').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
+            document.getElementById('btn-nested').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
+            
+            // Set active button
+            document.getElementById('btn-' + modelName).className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 bg-white/20 shadow-md';
+
+            // Hide all content blocks
+            const contents = ['content-stool', 'content-circles', 'content-nested'];
+            contents.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('opacity-100', 'translate-y-0');
+                el.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+            });
+
+            // Show selected block
+            const activeEl = document.getElementById('content-' + modelName);
+            activeEl.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            activeEl.classList.add('opacity-100', 'translate-y-0');
+        }
+
+        // Pointer-reactive particle field for a more interactive background.
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const scroller = document.getElementById('scroller');
+        const sections = Array.from(document.querySelectorAll('#scroller > section'));
+        const stickerStage = document.getElementById('sticker-stage');
+        const stickerCards = Array.from(document.querySelectorAll('.sticker-card'));
+        const stickerImages = stickerCards.map((card) => card.querySelector('img'));
+        const stageShapes = Array.from(document.querySelectorAll('.wire-cube, .orbital-ring'));
+        const particles = [];
+        const pointer = {
+            x: window.innerWidth * 0.5,
+            y: window.innerHeight * 0.5,
+            active: false
+        };
+        let width = 0;
+        let height = 0;
+        let parallaxX = 0;
+        let parallaxY = 0;
+        let targetParallaxX = 0;
+        let targetParallaxY = 0;
+        let activeThemeIndex = -1;
+        let entranceStart = performance.now();
+
+        function easeOutCubic(value) {
+            return 1 - Math.pow(1 - value, 3);
+        }
+
+        function buildStickerSvg(icon, title, subtitle, colorA, colorB) {
+            const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="' + title + '">' +
+                '<defs>' +
+                '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+                '<stop offset="0%" stop-color="' + colorA + '"/>' +
+                '<stop offset="100%" stop-color="' + colorB + '"/>' +
+                '</linearGradient>' +
+                '</defs>' +
+                '<rect x="0" y="0" width="420" height="420" fill="url(#g)" rx="54"/>' +
+                '<circle cx="335" cy="88" r="66" fill="rgba(255,255,255,0.18)"/>' +
+                '<rect x="34" y="286" width="352" height="102" rx="24" fill="rgba(8,15,40,0.34)"/>' +
+                '<text x="210" y="188" text-anchor="middle" font-size="104">' + icon + '</text>' +
+                '<text x="52" y="328" fill="white" font-family="Inter,Segoe UI,sans-serif" font-size="29" font-weight="700">' + title + '</text>' +
+                '<text x="52" y="362" fill="rgba(255,255,255,0.86)" font-family="Inter,Segoe UI,sans-serif" font-size="20">' + subtitle + '</text>' +
+                '</svg>';
+            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+        }
+
+        const sustainabilityThemes = [
+            {
+                stageClass: 'theme-globe',
+                cards: [
+                    { icon: '🌍', title: 'Global Balance', subtitle: 'People + Planet', a: '#0f766e', b: '#0ea5e9' },
+                    { icon: '♻️', title: 'Circular Use', subtitle: 'Reduce and Reuse', a: '#0f766e', b: '#22c55e' },
+                    { icon: '💧', title: 'Clean Water', subtitle: 'Safe for all', a: '#0f4c81', b: '#0ea5e9' },
+                    { icon: '🌱', title: 'Nature Care', subtitle: 'Restore forests', a: '#14532d', b: '#16a34a' },
+                    { icon: '⚡', title: 'Clean Energy', subtitle: 'Power transition', a: '#92400e', b: '#f59e0b' },
+                    { icon: '🏙️', title: 'Green Cities', subtitle: 'Better transport', a: '#1e3a8a', b: '#38bdf8' },
+                    { icon: '🤝', title: 'Shared Action', subtitle: 'Work together', a: '#5b21b6', b: '#7c3aed' }
+                ]
+            },
+            {
+                stageClass: 'theme-action',
+                cards: [
+                    { icon: '⚠️', title: 'Risk Society', subtitle: 'Modern threats', a: '#991b1b', b: '#f97316' },
+                    { icon: '📈', title: 'Stability', subtitle: 'Steady growth', a: '#1e3a8a', b: '#0284c7' },
+                    { icon: '🌾', title: 'Food Security', subtitle: 'Resilient farms', a: '#166534', b: '#65a30d' },
+                    { icon: '🏥', title: 'Public Health', subtitle: 'Accessible care', a: '#0f766e', b: '#14b8a6' },
+                    { icon: '🏫', title: 'Education', subtitle: 'Future ready', a: '#7c2d12', b: '#ea580c' },
+                    { icon: '🛠️', title: 'Fair Work', subtitle: 'Safe jobs', a: '#1e1b4b', b: '#4338ca' },
+                    { icon: '⚖️', title: 'Equity', subtitle: 'No one left', a: '#6b21a8', b: '#c026d3' }
+                ]
+            },
+            {
+                stageClass: 'theme-pillar',
+                cards: [
+                    { icon: '🌳', title: 'Environment', subtitle: 'Living systems', a: '#14532d', b: '#16a34a' },
+                    { icon: '💼', title: 'Economy', subtitle: 'Long-term value', a: '#1d4ed8', b: '#0ea5e9' },
+                    { icon: '🧑‍🤝‍🧑', title: 'Society', subtitle: 'Human wellbeing', a: '#6d28d9', b: '#8b5cf6' },
+                    { icon: '🌬️', title: 'Clean Air', subtitle: 'Lower emissions', a: '#0369a1', b: '#22d3ee' },
+                    { icon: '🚲', title: 'Mobility', subtitle: 'Low carbon', a: '#155e75', b: '#14b8a6' },
+                    { icon: '🏡', title: 'Resilience', subtitle: 'Safe homes', a: '#0f172a', b: '#334155' },
+                    { icon: '🔄', title: 'Balance', subtitle: 'All pillars', a: '#1f2937', b: '#6366f1' }
+                ]
+            },
+            {
+                stageClass: 'theme-goals',
+                cards: [
+                    { icon: '🎯', title: 'SDG Roadmap', subtitle: '17 goals', a: '#0f172a', b: '#2563eb' },
+                    { icon: '🚰', title: 'Water Access', subtitle: 'SDG 6', a: '#0f4c81', b: '#06b6d4' },
+                    { icon: '☀️', title: 'Affordable Energy', subtitle: 'SDG 7', a: '#7c2d12', b: '#f59e0b' },
+                    { icon: '🏭', title: 'Responsible Industry', subtitle: 'SDG 9', a: '#1e3a8a', b: '#60a5fa' },
+                    { icon: '🌊', title: 'Life Below Water', subtitle: 'SDG 14', a: '#0c4a6e', b: '#0284c7' },
+                    { icon: '🦋', title: 'Life on Land', subtitle: 'SDG 15', a: '#14532d', b: '#65a30d' },
+                    { icon: '🕊️', title: 'Peace & Justice', subtitle: 'SDG 16', a: '#312e81', b: '#6366f1' }
+                ]
+            }
+        ];
+
+        function applyTheme(sectionIndex) {
+            const nextThemeIndex = sectionIndex % sustainabilityThemes.length;
+            if (nextThemeIndex === activeThemeIndex) {
+                return;
+            }
+
+            activeThemeIndex = nextThemeIndex;
+            entranceStart = performance.now();
+            const theme = sustainabilityThemes[nextThemeIndex];
+
+            if (stickerStage) {
+                stickerStage.classList.remove('theme-globe', 'theme-pillar', 'theme-goals', 'theme-action');
+                stickerStage.classList.add(theme.stageClass);
+            }
+
+            stickerCards.forEach((card, index) => {
+                card.style.animation = 'none';
+                card.offsetHeight;
+                card.style.animation = 'sticker-float 11s ease-in-out infinite, sticker-pulse 8s ease-in-out infinite';
+                card.style.animationDelay = (index * 0.06) + 's';
+            });
+
+            stickerImages.forEach((img, index) => {
+                const card = theme.cards[index % theme.cards.length];
+                img.src = buildStickerSvg(card.icon, card.title, card.subtitle, card.a, card.b);
+                img.alt = card.title;
+            });
+        }
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+                    const nextIndex = Number(entry.target.getAttribute('data-slide-index'));
+                    applyTheme(nextIndex);
+                }
+            });
+        }, {
+            root: scroller,
+            threshold: [0.55, 0.75]
+        });
+
+        sections.forEach((section, index) => {
+            section.setAttribute('data-slide-index', String(index));
+            sectionObserver.observe(section);
+        });
+
+        function randomBetween(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createParticle(seedX, seedY) {
+            const angle = randomBetween(0, Math.PI * 2);
+            const speed = randomBetween(0.18, 0.52);
+            return {
+                x: seedX ?? randomBetween(0, width),
+                y: seedY ?? randomBetween(0, height),
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                radius: randomBetween(1.1, 2.9),
+                alpha: randomBetween(0.22, 0.58),
+                hue: randomBetween(180, 210)
+            };
+        }
+
+        function resizeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            if (!particles.length) {
+                const particleCount = width < 768 ? 28 : 52;
+                for (let i = 0; i < particleCount; i += 1) {
+                    particles.push(createParticle());
+                }
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i += 1) {
+                const p = particles[i];
+
+                if (pointer.active) {
+                    const dx = pointer.x - p.x;
+                    const dy = pointer.y - p.y;
+                    const distSq = Math.max(dx * dx + dy * dy, 90);
+                    p.vx += (dx / distSq) * 2.4;
+                    p.vy += (dy / distSq) * 2.4;
+                }
+
+                p.vx *= 0.992;
+                p.vy *= 0.992;
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > width + 18) p.x = -18;
+                if (p.x < -18) p.x = width + 18;
+                if (p.y > height + 18) p.y = -18;
+                if (p.y < -18) p.y = height + 18;
+
+                ctx.beginPath();
+                ctx.fillStyle = 'hsla(' + p.hue + ', 90%, 70%, ' + p.alpha + ')';
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = i + 1; j < particles.length; j += 1) {
+                    const q = particles[j];
+                    const dx = q.x - p.x;
+                    const dy = q.y - p.y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist < 110) {
+                        const opacity = (1 - dist / 110) * 0.18;
+                        ctx.beginPath();
+                        ctx.strokeStyle = 'rgba(147, 197, 253, ' + opacity + ')';
+                        ctx.lineWidth = 0.7;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(q.x, q.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            if (!prefersReducedMotion) {
+                requestAnimationFrame(drawParticles);
+            }
+        }
+
+        function animateStickerParallax() {
+            const now = performance.now();
+            parallaxX += (targetParallaxX - parallaxX) * 0.08;
+            parallaxY += (targetParallaxY - parallaxY) * 0.08;
+
+            if (stickerStage) {
+                stickerStage.style.transform = 'rotateX(' + (parallaxY * 4.2) + 'deg) rotateY(' + (-parallaxX * 5.4) + 'deg)';
+            }
+
+            stickerCards.forEach((card, index) => {
+                const depth = Number(card.classList.contains('depth-3') ? 42 : card.classList.contains('depth-2') ? 28 : 16);
+                const delay = index * 75;
+                const progress = Math.min(Math.max((now - entranceStart - delay) / 520, 0), 1);
+                const eased = prefersReducedMotion ? 1 : easeOutCubic(progress);
+                const introYOffset = (1 - eased) * 95;
+                const introScale = 0.82 + (0.18 * eased);
+                const driftX = parallaxX * (depth * 0.9);
+                const driftY = parallaxY * (depth * 0.7) + introYOffset;
+                const rotate = parallaxX * (index % 2 === 0 ? 7 : -7);
+                card.style.opacity = String(0.16 + (eased * 0.7));
+                card.style.transform = 'translate3d(' + driftX + 'px, ' + driftY + 'px, ' + depth + 'px) rotate(' + rotate + 'deg) scale(' + introScale + ')';
+            });
+
+            stageShapes.forEach((shape, index) => {
+                const dx = parallaxX * (index % 2 === 0 ? 18 : -14);
+                const dy = parallaxY * (index % 2 === 0 ? 12 : -10);
+                shape.style.translate = dx + 'px ' + dy + 'px';
+            });
+
+            requestAnimationFrame(animateStickerParallax);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('pointermove', (event) => {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+            pointer.active = true;
+            targetParallaxX = ((event.clientX / width) - 0.5) * 2;
+            targetParallaxY = ((event.clientY / height) - 0.5) * 2;
+
+            if (particles.length > 0 && Math.random() > 0.75) {
+                const index = Math.floor(Math.random() * particles.length);
+                particles[index] = createParticle(pointer.x + randomBetween(-14, 14), pointer.y + randomBetween(-14, 14));
+            }
+        });
+        window.addEventListener('pointerleave', () => {
+            pointer.active = false;
+            targetParallaxX = 0;
+            targetParallaxY = 0;
+        });
+
+        resizeCanvas();
+        applyTheme(0);
+        drawParticles();
+        if (!prefersReducedMotion) {
+            animateStickerParallax();
+        } else {
+            stickerCards.forEach((card) => {
+                card.style.opacity = '0.84';
+            });
+        }
+    </script>
+</body>
+</html>
