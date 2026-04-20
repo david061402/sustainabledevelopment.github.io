@@ -38,10 +38,23 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --app-height: 100vh;
+        }
+
         /* Custom Scrollbar to keep it clean */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; }
+
+        html,
+        body {
+            min-height: var(--app-height);
+        }
+
+        body {
+            overflow: hidden;
+        }
 
         .bg-scene {
             position: fixed;
@@ -350,9 +363,61 @@
 
         /* Hide scrollbar for the main container but keep functionality */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar { -ms-overflow-style: none; }
+
+        #scroller {
+            height: var(--app-height);
+        }
 
         @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+                overflow-y: auto !important;
+            }
+
+            #scroller {
+                height: auto;
+                min-height: var(--app-height);
+                overflow-y: visible;
+                scroll-snap-type: y proximity;
+            }
+
+            #scroller > section {
+                min-height: var(--app-height);
+                height: auto;
+                padding: 1rem;
+                scroll-snap-align: start;
+            }
+
+            .glass-panel {
+                width: min(92vw, 100%);
+                padding: 1.5rem !important;
+                border-radius: 1.5rem;
+            }
+
+            #scroller > section h1 {
+                font-size: clamp(2.4rem, 10vw, 4.2rem) !important;
+                line-height: 0.98;
+            }
+
+            #scroller > section h2 {
+                font-size: clamp(1.7rem, 7vw, 2.6rem) !important;
+            }
+
+            #scroller > section p,
+            #scroller > section blockquote {
+                font-size: clamp(0.95rem, 3.6vw, 1.1rem) !important;
+            }
+
+            .grid {
+                gap: 0.85rem !important;
+            }
+
+            .h-80 {
+                height: auto !important;
+                min-height: 14rem;
+            }
+
             .bg-grid { opacity: 0.08; }
             .blob { display: none; }
             .sticker-card {
@@ -510,28 +575,91 @@
             </div>
         </section>
 
-        <section class="h-screen w-full snap-start flex flex-col items-center justify-center p-6">
-            <div class="max-w-5xl w-full p-8 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter">
-                <h2 class="text-4xl font-bold mb-8 text-center text-white">Models of Sustainable Development</h2>
-                
-                <div class="flex space-x-2 bg-black/20 p-2 rounded-2xl mb-6 overflow-x-auto">
-                    <button onclick="showModel('stool')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 bg-white/20 shadow-md" id="btn-stool">3-Legged Stool</button>
-                    <button onclick="showModel('circles')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10" id="btn-circles">Overlapping Circles</button>
-                    <button onclick="showModel('nested')" class="flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10" id="btn-nested">Nested Dependencies</button>
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="max-w-6xl w-full p-10 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1 text-left">
+                    <h2 class="text-4xl font-bold mb-6 text-amber-300">Model 1: The 3-Legged Stool</h2>
+                    <p class="text-xl text-slate-200 leading-relaxed">
+                        This model visualizes the environment, economy, and society as the three legs of a stool holding up Sustainable Development.
+                    </p>
+                    <p class="text-xl text-slate-200 leading-relaxed mt-4">
+                        They are independent but equally important. If one leg is missing or broken, the whole stool (sustainability) falls over.
+                    </p>
                 </div>
+                <div class="flex-1 flex justify-center w-full">
+                    <div class="flex flex-col items-center w-full max-w-sm hover:scale-105 transition-transform duration-500">
+                        <div class="w-full h-20 bg-gradient-to-b from-amber-500 to-amber-700 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.5)] border-t border-amber-300 flex items-center justify-center z-10">
+                            <span class="text-2xl font-bold text-white tracking-widest uppercase drop-shadow-md">Sustainability</span>
+                        </div>
+                        <div class="flex justify-between w-[85%] mt-[-10px]">
+                            <div class="w-16 h-56 bg-gradient-to-r from-emerald-600 to-emerald-800 rounded-b-xl shadow-lg border-l border-emerald-400 flex items-center justify-center relative">
+                                <span class="text-white font-bold -rotate-90 whitespace-nowrap tracking-wider text-lg">Environment</span>
+                            </div>
+                            <div class="w-16 h-56 bg-gradient-to-r from-blue-600 to-blue-800 rounded-b-xl shadow-lg border-l border-blue-400 flex items-center justify-center relative">
+                                <span class="text-white font-bold -rotate-90 whitespace-nowrap tracking-wider text-lg">Economy</span>
+                            </div>
+                            <div class="w-16 h-56 bg-gradient-to-r from-purple-600 to-purple-800 rounded-b-xl shadow-lg border-l border-purple-400 flex items-center justify-center relative">
+                                <span class="text-white font-bold -rotate-90 whitespace-nowrap tracking-wider text-lg">Society</span>
+                            </div>
+                        </div>
+                        <div class="w-full h-4 bg-black/40 blur-md rounded-[100%] mt-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <div class="h-48 relative">
-                    <div id="content-stool" class="absolute inset-0 transition-all duration-500 opacity-100 translate-y-0">
-                        <h3 class="text-2xl font-bold text-amber-300 mb-3">The 3-Legged Stool Model</h3>
-                        <p class="text-lg text-slate-200">This model shows that the environment, economy, and society are like the three legs of a stool. They are independent but equally important. If one leg is missing or broken, the whole stool (sustainability) falls over.</p>
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="max-w-6xl w-full p-10 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="flex-1 text-left">
+                    <h2 class="text-4xl font-bold mb-6 text-blue-300">Model 2: Overlapping Circles</h2>
+                    <p class="text-xl text-slate-200 leading-relaxed">
+                        This model uses a Venn diagram. It acknowledges that the three pillars intersect and directly affect each other.
+                    </p>
+                    <p class="text-xl text-slate-200 leading-relaxed mt-4">
+                        True sustainability is found right in the middle where all three circles overlap perfectly.
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-center w-full">
+                    <div class="relative w-[360px] h-[360px] text-white hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-56 bg-emerald-500/50 mix-blend-screen rounded-full border border-emerald-300 shadow-[0_0_30px_rgba(16,185,129,0.3)] flex justify-center pt-6 z-10">
+                            <span class="font-bold text-xl tracking-wide text-emerald-100 drop-shadow-md">Environment</span>
+                        </div>
+                        <div class="absolute bottom-2 left-0 w-56 h-56 bg-blue-500/50 mix-blend-screen rounded-full border border-blue-300 shadow-[0_0_30px_rgba(59,130,246,0.3)] flex items-end pb-10 pl-8 z-10">
+                            <span class="font-bold text-xl tracking-wide text-blue-100 drop-shadow-md">Economy</span>
+                        </div>
+                        <div class="absolute bottom-2 right-0 w-56 h-56 bg-purple-500/50 mix-blend-screen rounded-full border border-purple-300 shadow-[0_0_30px_rgba(168,85,247,0.3)] flex items-end pb-10 pr-10 z-10">
+                            <span class="font-bold text-xl tracking-wide text-purple-100 drop-shadow-md">Society</span>
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-3 w-32 text-center z-20">
+                            <span class="font-bold text-sm tracking-widest text-white drop-shadow-[0_2px_4px_rgba(0,0,0,1)] bg-black/30 px-2 py-1 rounded">Sustainability</span>
+                        </div>
                     </div>
-                    <div id="content-circles" class="absolute inset-0 transition-all duration-500 opacity-0 translate-y-4 pointer-events-none">
-                        <h3 class="text-2xl font-bold text-blue-300 mb-3">The 3-Overlapping Circles Model</h3>
-                        <p class="text-lg text-slate-200">This model uses a Venn diagram. It shows that the three pillars intersect and affect each other. True sustainability is found right in the middle where all three circles overlap.</p>
-                    </div>
-                    <div id="content-nested" class="absolute inset-0 transition-all duration-500 opacity-0 translate-y-4 pointer-events-none">
-                        <h3 class="text-2xl font-bold text-emerald-300 mb-3">The 3-Nested Dependencies Model</h3>
-                        <p class="text-lg text-slate-200">This model argues that the economy is a part of society, and society exists entirely within the environment. Therefore, human society and the economy cannot survive if they destroy the environment that holds them.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="h-screen w-full snap-start flex items-center justify-center p-6">
+            <div class="max-w-6xl w-full p-10 rounded-3xl bg-glass backdrop-blur-xl border border-glassBorder figma-enter flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1 text-left">
+                    <h2 class="text-4xl font-bold mb-6 text-emerald-300">Model 3: Nested Dependencies</h2>
+                    <p class="text-xl text-slate-200 leading-relaxed">
+                        This model argues that the economy is just a part of society, and human society exists entirely inside the Earth's environment.
+                    </p>
+                    <p class="text-xl text-slate-200 leading-relaxed mt-4">
+                        Therefore, human society and the economy cannot survive if they destroy the environment that contains them.
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-center w-full">
+                    <div class="relative w-80 h-80 flex items-center justify-center text-white hover:scale-105 transition-transform duration-500">
+                        <div class="absolute w-full h-full bg-emerald-600/40 rounded-full border-2 border-emerald-400 shadow-[0_0_40px_rgba(16,185,129,0.3)] flex justify-center pt-6">
+                            <span class="font-bold text-2xl text-emerald-100 tracking-wider drop-shadow-md">Environment</span>
+                        </div>
+                        <div class="absolute w-56 h-56 bg-purple-600/60 rounded-full border-2 border-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.4)] flex justify-center pt-5">
+                            <span class="font-bold text-xl text-purple-100 tracking-wider drop-shadow-md">Society</span>
+                        </div>
+                        <div class="absolute w-32 h-32 bg-blue-600/90 rounded-full border-2 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.6)] flex items-center justify-center">
+                            <span class="font-bold text-lg text-blue-100 tracking-wider drop-shadow-md">Economy</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -703,6 +831,11 @@
     </main>
 
     <script>
+        function updateAppHeight() {
+            const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            document.documentElement.style.setProperty('--app-height', viewportHeight + 'px');
+        }
+
         // Figma-style scroll reveal animation using Intersection Observer
         const observerOptions = {
             root: document.querySelector('#scroller'),
@@ -714,7 +847,6 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('figma-enter-active');
                 } else {
-                    // Optional: remove to animate again on scroll up
                     entry.target.classList.remove('figma-enter-active');
                 }
             });
@@ -723,30 +855,6 @@
         document.querySelectorAll('.figma-enter').forEach(el => {
             observer.observe(el);
         });
-
-        // Interactive Tabs Logic for Models Slide
-        function showModel(modelName) {
-            // Reset buttons
-            document.getElementById('btn-stool').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
-            document.getElementById('btn-circles').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
-            document.getElementById('btn-nested').className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:bg-white/10';
-            
-            // Set active button
-            document.getElementById('btn-' + modelName).className = 'flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 bg-white/20 shadow-md';
-
-            // Hide all content blocks
-            const contents = ['content-stool', 'content-circles', 'content-nested'];
-            contents.forEach(id => {
-                const el = document.getElementById(id);
-                el.classList.remove('opacity-100', 'translate-y-0');
-                el.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-            });
-
-            // Show selected block
-            const activeEl = document.getElementById('content-' + modelName);
-            activeEl.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-            activeEl.classList.add('opacity-100', 'translate-y-0');
-        }
 
         // Pointer-reactive particle field for a more interactive background.
         const canvas = document.getElementById('bg-canvas');
@@ -759,9 +867,11 @@
         const stickerImages = stickerCards.map((card) => card.querySelector('img'));
         const stageShapes = Array.from(document.querySelectorAll('.wire-cube, .orbital-ring'));
         const particles = [];
+        const getViewportWidth = () => (window.visualViewport ? window.visualViewport.width : window.innerWidth);
+        const getViewportHeight = () => (window.visualViewport ? window.visualViewport.height : window.innerHeight);
         const pointer = {
-            x: window.innerWidth * 0.5,
-            y: window.innerHeight * 0.5,
+            x: getViewportWidth() * 0.5,
+            y: getViewportHeight() * 0.5,
             active: false
         };
         let width = 0;
@@ -912,8 +1022,8 @@
 
         function resizeCanvas() {
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            width = window.innerWidth;
-            height = window.innerHeight;
+            width = getViewportWidth();
+            height = getViewportHeight();
             canvas.width = Math.floor(width * dpr);
             canvas.height = Math.floor(height * dpr);
             canvas.style.width = width + 'px';
@@ -1012,6 +1122,10 @@
         }
 
         window.addEventListener('resize', resizeCanvas);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateAppHeight);
+            window.visualViewport.addEventListener('scroll', updateAppHeight);
+        }
         window.addEventListener('pointermove', (event) => {
             pointer.x = event.clientX;
             pointer.y = event.clientY;
@@ -1030,6 +1144,7 @@
             targetParallaxY = 0;
         });
 
+    updateAppHeight();
         resizeCanvas();
         applyTheme(0);
         drawParticles();
